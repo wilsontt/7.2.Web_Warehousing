@@ -1,0 +1,75 @@
+# 依賴套件
+node_modules/
+**/node_modules/
+**/bin/
+**/obj/
+**/packages/
+
+# 建置輸出
+dist/
+build/
+**/dist/
+**/build/
+*.dll
+*.pdb
+*.exe
+
+# 環境變數檔案
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+appsettings.Development.json
+appsettings.Production.json
+
+# Logs - 應用程式日誌檔案目錄
+# 日誌檔案存放在 logs/ 目錄，支援日誌輪轉（保留最近 30 天）
+/logs/
+*.log
+**/logs/
+
+# 作業系統檔案
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE 設定
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# 測試覆蓋率
+coverage/
+*.coverage
+*.coveragexml
+
+# 暫存檔案
+tmp/
+temp/
+*.tmp
+
+# 資料庫檔案
+*.mdf
+*.ldf
+*.db
+
+# Docker
+docker-compose.override.yml
+
+# 其他
+*.bak
+*.cache
+
+# Reports - 系統生成的報告檔案目錄
+# 報告檔案按年月分類存放：reports/yyyy/yyyymm/
+# 注意：使用 /reports/ 只忽略根目錄下的 reports/ 目錄
+# 不會影響前端路由頁面 frontend/app/reports/（程式碼需要提交）
+/reports/
+
+
