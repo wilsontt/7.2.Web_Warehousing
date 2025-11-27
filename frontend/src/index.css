@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+:root {
+  /* 定義全站基礎字體大小變數，預設為 16px */
+  --base-font-size: 16px;
+}
+
+html {
+  /* 將 html 的字體大小綁定到變數，這會影響所有使用 rem 的 Tailwind class */
+  font-size: var(--base-font-size);
+}
+
+@theme {
+  --font-display: "Oswald", "sans-serif";
+}

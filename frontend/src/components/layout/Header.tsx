@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../contexts/auth-context';
 import {
-  User, ChevronDown, Menu, X, Globe, Sun, ChevronRight,
+  User, ChevronDown, Menu, X, Globe, Sun, ChevronRight, Type,
   Database, ClipboardList, Package, Users, ArrowLeftRight, FileCheck, Warehouse, Settings
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -272,7 +272,22 @@ export function Header() {
   const { user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  // 初始化時從 localStorage 讀取設定，預設為 'medium'
+  const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large'>(() => {
+    return (localStorage.getItem('app-font-size') as 'small' | 'medium' | 'large') || 'medium';
+  });
   const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // 監聽 fontSize 變化，更新 CSS 變數與 localStorage
+  useEffect(() => {
+    const sizeMap = {
+      small: '14px',
+      medium: '16px',
+      large: '18px',
+    };
+    document.documentElement.style.setProperty('--base-font-size', sizeMap[fontSize]);
+    localStorage.setItem('app-font-size', fontSize);
+  }, [fontSize]);
 
   // 點擊外部時關閉使用者選單
   useEffect(() => {
@@ -365,6 +380,34 @@ export function Header() {
                     <Sun className="mr-2 h-4 w-4" />
                     切換主題
                   </button>
+
+                  {/* 字體大小調整 */}
+                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center justify-between" role="menuitem">
+                    <div className="flex items-center">
+                      <Type className="mr-2 h-4 w-4" />
+                      <span>字體大小</span>
+                    </div>
+                    <div className="flex space-x-1">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setFontSize('small'); }}
+                        className={`px-2 py-0.5 text-xs rounded border ${fontSize === 'small' ? 'bg-blue-100 border-blue-500 text-blue-700' : 'border-gray-300 text-gray-500'}`}
+                      >
+                        小
+                      </button>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setFontSize('medium'); }}
+                        className={`px-2 py-0.5 text-xs rounded border ${fontSize === 'medium' ? 'bg-blue-100 border-blue-500 text-blue-700' : 'border-gray-300 text-gray-500'}`}
+                      >
+                        中
+                      </button>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setFontSize('large'); }}
+                        className={`px-2 py-0.5 text-xs rounded border ${fontSize === 'large' ? 'bg-blue-100 border-blue-500 text-blue-700' : 'border-gray-300 text-gray-500'}`}
+                      >
+                        大
+                      </button>
+                    </div>
+                  </div>
 
                   <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabIndex={-1}>變更密碼</a>
                   <button
