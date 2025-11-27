@@ -14,13 +14,11 @@ function App() {
           <Route path="/login" element={<Login />} />
 
           {/* Protected Routes */}
-          <Route element={
-            <ProtectedRoute>
-              <MainLayout />
-            </ProtectedRoute>
-          }>
-            <Route path="/" element={<Dashboard />} />
-            {/* Add other protected routes here */}
+          <Route element={<ProtectedRoute />}>
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<Dashboard />} />
+              {/* Add other protected routes here */}
+            </Route>
           </Route>
         </Routes>
       </Router>
