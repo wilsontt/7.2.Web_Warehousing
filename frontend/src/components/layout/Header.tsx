@@ -11,6 +11,7 @@ import logo from '../../assets/logo.png';
 interface MenuItem {
   name: string;
   icon?: React.ElementType;
+  iconColor?: string;
   href?: string;
   items?: MenuItem[];
 }
@@ -20,6 +21,7 @@ const NAVIGATION_ITEMS: MenuItem[] = [
   {
     name: '1. 基本作業',
     icon: Database,
+    iconColor: 'text-blue-600',
     items: [
       {
         name: '代碼作業',
@@ -51,6 +53,7 @@ const NAVIGATION_ITEMS: MenuItem[] = [
   {
     name: '2. 例行作業',
     icon: ClipboardList,
+    iconColor: 'text-green-600',
     items: [
       { name: '客戶工作通知單', href: '#' },
       { name: '倉儲工作單', href: '#' },
@@ -81,6 +84,7 @@ const NAVIGATION_ITEMS: MenuItem[] = [
   {
     name: '3. 庫存作業',
     icon: Package,
+    iconColor: 'text-orange-500',
     items: [
       { name: '箱子/物件 即時庫存查詢', href: '#' },
       {
@@ -115,6 +119,7 @@ const NAVIGATION_ITEMS: MenuItem[] = [
   {
     name: '4. 客戶作業',
     icon: Users,
+    iconColor: 'text-purple-600',
     items: [
       { name: '客戶工作通知單', href: '#' },
       { name: '工作通知單審核作業', href: '#' },
@@ -125,6 +130,7 @@ const NAVIGATION_ITEMS: MenuItem[] = [
   {
     name: '5. 移儲作業',
     icon: ArrowLeftRight,
+    iconColor: 'text-indigo-600',
     items: [
       {
         name: '移出作業',
@@ -147,6 +153,7 @@ const NAVIGATION_ITEMS: MenuItem[] = [
   {
     name: '6. 稽核作業',
     icon: FileCheck,
+    iconColor: 'text-red-600',
     items: [
       { name: '表A003 存倉物品抽查記錄表', href: '#' },
       { name: '表A004 倉庫表單抽查記錄表', href: '#' },
@@ -164,6 +171,7 @@ const NAVIGATION_ITEMS: MenuItem[] = [
   {
     name: '7. 倉儲管理作業',
     icon: Warehouse,
+    iconColor: 'text-teal-600',
     items: [
       {
         name: '工作單維護',
@@ -194,6 +202,7 @@ const NAVIGATION_ITEMS: MenuItem[] = [
   {
     name: '8. 系統管理作業',
     icon: Settings,
+    iconColor: 'text-gray-600',
     items: [
       { name: '系統管理者帳號設定', href: '#' },
       {
@@ -301,7 +310,7 @@ export function Header() {
             {NAVIGATION_ITEMS.map((item) => (
               <div key={item.name} className="relative group">
                 <button className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium inline-flex items-center">
-                  {item.icon && <item.icon className="mr-1.5 h-4 w-4" />}
+                  {item.icon && <item.icon className={`mr-1.5 h-4 w-4 ${item.iconColor}`} />}
                   {item.name}
                   <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
@@ -399,7 +408,7 @@ export function Header() {
                   href={item.href || '#'}
                   className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 flex items-center"
                 >
-                  {item.icon && <item.icon className="mr-2 h-5 w-5" />}
+                  {item.icon && <item.icon className={`mr-2 h-5 w-5 ${item.iconColor}`} />}
                   {item.name}
                 </a>
                 {/* 簡單的手機版子選單縮排 */}
