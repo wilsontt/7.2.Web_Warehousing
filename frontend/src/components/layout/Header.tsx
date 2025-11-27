@@ -1,12 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../contexts/auth-context';
-import { User, ChevronDown, Menu, X, Globe, Sun, ChevronRight } from 'lucide-react';
+import {
+  User, ChevronDown, Menu, X, Globe, Sun, ChevronRight,
+  Database, ClipboardList, Package, Users, ArrowLeftRight, FileCheck, Warehouse, Settings
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 
 // 定義選單項目型別
 interface MenuItem {
   name: string;
+  icon?: React.ElementType;
   href?: string;
   items?: MenuItem[];
 }
@@ -14,7 +18,8 @@ interface MenuItem {
 // 根據規格定義的完整導覽資料
 const NAVIGATION_ITEMS: MenuItem[] = [
   {
-    name: '基本作業',
+    name: '1. 基本作業',
+    icon: Database,
     items: [
       {
         name: '代碼作業',
@@ -44,7 +49,8 @@ const NAVIGATION_ITEMS: MenuItem[] = [
     ]
   },
   {
-    name: '例行作業',
+    name: '2. 例行作業',
+    icon: ClipboardList,
     items: [
       { name: '客戶工作通知單', href: '#' },
       { name: '倉儲工作單', href: '#' },
@@ -73,7 +79,8 @@ const NAVIGATION_ITEMS: MenuItem[] = [
     ]
   },
   {
-    name: '庫存作業',
+    name: '3. 庫存作業',
+    icon: Package,
     items: [
       { name: '箱子/物件 即時庫存查詢', href: '#' },
       {
@@ -106,7 +113,8 @@ const NAVIGATION_ITEMS: MenuItem[] = [
     ]
   },
   {
-    name: '客戶作業',
+    name: '4. 客戶作業',
+    icon: Users,
     items: [
       { name: '客戶工作通知單', href: '#' },
       { name: '工作通知單審核作業', href: '#' },
@@ -115,7 +123,8 @@ const NAVIGATION_ITEMS: MenuItem[] = [
     ]
   },
   {
-    name: '移儲作業',
+    name: '5. 移儲作業',
+    icon: ArrowLeftRight,
     items: [
       {
         name: '移出作業',
@@ -136,7 +145,8 @@ const NAVIGATION_ITEMS: MenuItem[] = [
     ]
   },
   {
-    name: '稽核作業',
+    name: '6. 稽核作業',
+    icon: FileCheck,
     items: [
       { name: '表A003 存倉物品抽查記錄表', href: '#' },
       { name: '表A004 倉庫表單抽查記錄表', href: '#' },
@@ -152,7 +162,8 @@ const NAVIGATION_ITEMS: MenuItem[] = [
     ]
   },
   {
-    name: '倉儲管理作業',
+    name: '7. 倉儲管理作業',
+    icon: Warehouse,
     items: [
       {
         name: '工作單維護',
@@ -181,7 +192,8 @@ const NAVIGATION_ITEMS: MenuItem[] = [
     ]
   },
   {
-    name: '系統管理作業',
+    name: '8. 系統管理作業',
+    icon: Settings,
     items: [
       { name: '系統管理者帳號設定', href: '#' },
       {
@@ -289,6 +301,7 @@ export function Header() {
             {NAVIGATION_ITEMS.map((item) => (
               <div key={item.name} className="relative group">
                 <button className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium inline-flex items-center">
+                  {item.icon && <item.icon className="mr-1.5 h-4 w-4" />}
                   {item.name}
                   <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
@@ -302,16 +315,6 @@ export function Header() {
 
           {/* 右側: 使用者工具列 */}
           <div className="hidden lg:flex items-center space-x-4">
-            {/* 語系切換 (模擬) */}
-            <button className="text-gray-400 hover:text-gray-500">
-              <Globe className="h-5 w-5" />
-            </button>
-
-            {/* 主題切換 (模擬) */}
-            <button className="text-gray-400 hover:text-gray-500">
-              <Sun className="h-5 w-5" />
-            </button>
-
             {/* 使用者選單 */}
             <div className="relative ml-3" ref={userMenuRef}>
               <div>
@@ -343,6 +346,17 @@ export function Header() {
                     <p>帳號: {user?.username}</p>
                     <p>IP: 192.168.1.100</p>
                   </div>
+                  
+                  {/* 語系與主題切換 (移至此處) */}
+                  <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center" role="menuitem">
+                    <Globe className="mr-2 h-4 w-4" />
+                    切換語系
+                  </button>
+                  <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center" role="menuitem">
+                    <Sun className="mr-2 h-4 w-4" />
+                    切換主題
+                  </button>
+
                   <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabIndex={-1}>變更密碼</a>
                   <button
                     onClick={logout}
@@ -383,8 +397,9 @@ export function Header() {
               <div key={item.name}>
                  <a
                   href={item.href || '#'}
-                  className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+                  className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 flex items-center"
                 >
+                  {item.icon && <item.icon className="mr-2 h-5 w-5" />}
                   {item.name}
                 </a>
                 {/* 簡單的手機版子選單縮排 */}
