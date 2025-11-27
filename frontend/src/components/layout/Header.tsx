@@ -4,14 +4,14 @@ import { User, ChevronDown, Menu, X, Globe, Sun, ChevronRight } from 'lucide-rea
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 
-// Define Menu Item Type
+// 定義選單項目型別
 interface MenuItem {
   name: string;
   href?: string;
   items?: MenuItem[];
 }
 
-// Full Navigation Data based on Spec
+// 根據規格定義的完整導覽資料
 const NAVIGATION_ITEMS: MenuItem[] = [
   {
     name: '基本作業',
@@ -208,7 +208,7 @@ const NAVIGATION_ITEMS: MenuItem[] = [
   },
 ];
 
-// Recursive Dropdown Menu Component
+// 遞迴下拉選單組件
 function DropdownMenu({ items }: { items: MenuItem[] }) {
   if (!items || items.length === 0) return null;
 
@@ -226,7 +226,7 @@ function DropdownMenu({ items }: { items: MenuItem[] }) {
                   {item.name}
                   <ChevronRight className="h-4 w-4 text-gray-400" />
                 </button>
-                {/* Submenu Wrapper with padding bridge */}
+                {/* 子選單容器 (含緩衝區) */}
                 <div className="hidden group-hover/submenu:block absolute left-full top-0 w-56 pl-1 z-50">
                   <DropdownMenu items={item.items} />
                 </div>
@@ -253,7 +253,7 @@ export function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
-  // Close user menu when clicking outside
+  // 點擊外部時關閉使用者選單
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
@@ -270,7 +270,7 @@ export function Header() {
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          {/* Left: Logo & Title */}
+          {/* 左側: Logo 與標題 */}
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center">
               <img
@@ -284,7 +284,7 @@ export function Header() {
             </Link>
           </div>
 
-          {/* Center: Desktop Navigation */}
+          {/* 中間: 桌面版導覽列 */}
           <div className="hidden lg:flex lg:items-center lg:space-x-4">
             {NAVIGATION_ITEMS.map((item) => (
               <div key={item.name} className="relative group">
@@ -292,7 +292,7 @@ export function Header() {
                   {item.name}
                   <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
-                {/* Top Level Dropdown Wrapper with padding bridge */}
+                {/* 頂層下拉選單容器 (含緩衝區) */}
                 <div className="hidden group-hover:block absolute left-0 top-full w-56 pt-2 z-50">
                   <DropdownMenu items={item.items || []} />
                 </div>
@@ -300,19 +300,19 @@ export function Header() {
             ))}
           </div>
 
-          {/* Right: User Tools */}
+          {/* 右側: 使用者工具列 */}
           <div className="hidden lg:flex items-center space-x-4">
-            {/* Language Switcher (Mock) */}
+            {/* 語系切換 (模擬) */}
             <button className="text-gray-400 hover:text-gray-500">
               <Globe className="h-5 w-5" />
             </button>
 
-            {/* Theme Switcher (Mock) */}
+            {/* 主題切換 (模擬) */}
             <button className="text-gray-400 hover:text-gray-500">
               <Sun className="h-5 w-5" />
             </button>
 
-            {/* User Menu */}
+            {/* 使用者選單 */}
             <div className="relative ml-3" ref={userMenuRef}>
               <div>
                 <button
@@ -357,14 +357,14 @@ export function Header() {
             </div>
           </div>
 
-          {/* Mobile menu button */}
+          {/* 手機版選單按鈕 */}
           <div className="flex items-center lg:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
               aria-expanded="false"
             >
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">開啟主選單</span>
               {isMobileMenuOpen ? (
                 <X className="block h-6 w-6" aria-hidden="true" />
               ) : (
@@ -375,7 +375,7 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* 手機版選單 */}
       {isMobileMenuOpen && (
         <div className="lg:hidden">
           <div className="pt-2 pb-3 space-y-1">
@@ -387,7 +387,7 @@ export function Header() {
                 >
                   {item.name}
                 </a>
-                {/* Simple mobile submenu indentation */}
+                {/* 簡單的手機版子選單縮排 */}
                 {item.items && item.items.map(subItem => (
                    <div key={subItem.name}>
                      <a
@@ -396,7 +396,7 @@ export function Header() {
                     >
                       {subItem.name}
                     </a>
-                    {/* 3rd level mobile */}
+                    {/* 第三層手機版選單 */}
                     {subItem.items && subItem.items.map(subSubItem => (
                       <a
                         key={subSubItem.name}

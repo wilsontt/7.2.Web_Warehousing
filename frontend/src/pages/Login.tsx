@@ -65,7 +65,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-        {/* Logo & Title */}
+        {/* Logo 與標題 */}
         <div className="text-center">
           <img
             className="mx-auto h-16 w-auto object-contain"
@@ -80,10 +80,10 @@ export default function Login() {
           </p>
         </div>
 
-        {/* Login Form */}
+        {/* 登入表單 */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
-            {/* Username */}
+            {/* 帳號欄位 */}
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                 帳號
@@ -109,7 +109,7 @@ export default function Login() {
               )}
             </div>
 
-            {/* Password */}
+            {/* 密碼欄位 */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 密碼
@@ -150,7 +150,7 @@ export default function Login() {
             </div>
           </div>
 
-          {/* Error Message */}
+          {/* 錯誤訊息 */}
           {errorMsg && (
             <div className="rounded-md bg-red-50 p-4">
               <div className="flex">
@@ -166,7 +166,7 @@ export default function Login() {
             </div>
           )}
 
-          {/* Submit Button */}
+          {/* 提交按鈕 */}
           <div>
             <button
               type="submit"

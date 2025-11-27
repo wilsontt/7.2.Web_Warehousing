@@ -7,26 +7,26 @@ import { ChartWidget } from '../components/dashboard/ChartWidget';
 export default function Dashboard() {
   return (
     <div className="space-y-6">
-      {/* Section 1: Top Widgets */}
+      {/* 第一區塊: 頂部資訊卡片 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column: Task Summary (Spans 2 columns on large screens) */}
+        {/* 左欄: 今日任務 (大螢幕佔 2 欄) */}
         <div className="lg:col-span-2">
           <TaskSummaryWidget />
         </div>
         
-        {/* Right Column: Notifications */}
+        {/* 右欄: 最新通知 */}
         <div className="lg:col-span-1">
           <NotificationWidget />
         </div>
       </div>
 
-      {/* Section 2: Middle Widgets */}
+      {/* 第二區塊: 中間圖表與統計 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <InventoryStatusWidget />
         <ChartWidget />
       </div>
 
-      {/* Section 3: Bottom Widgets */}
+      {/* 第三區塊: 底部詳細資訊 */}
       <div className="grid grid-cols-1 gap-6">
         <WarehouseInfoWidget />
       </div>

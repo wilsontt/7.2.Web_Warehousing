@@ -1,19 +1,15 @@
-import { Navigate, useLocation } from 'react-router-dom';
+```typescript
+import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../contexts/auth-context';
 
-export function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isLoading } = useAuth();
-  const location = useLocation();
-
-  if (isLoading) {
-    // 可以加入一個簡單的 Loading Spinner
-    return <div className="flex h-screen items-center justify-center">Loading...</div>;
-  }
+export function ProtectedRoute() {
+  const { isAuthenticated } = useAuth();
 
   if (!isAuthenticated) {
-    // 導向登入頁，並記錄原本想去的頁面 (state: { from: location })
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    // Not authenticated, redirect to login page
+    return <Navigate to="/login" replace />;
   }
 
-  return <>{children}</>;
+  // 已登入，顯示子路由內容
+  return <Outlet />;
 }
