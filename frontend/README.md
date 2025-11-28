@@ -61,7 +61,7 @@ VITE_API_BASE_URL=http://localhost:5000/api
 
 ## UI/UX 規範
 
-請遵循 `0.standards/2.文件倉儲管理系統 Warehouse Management System 設計規範v2.0.md` 中的設計規範。
+請遵循 `0.standards/0.專案憲章-總規範-SDD工作流程/2.文件倉儲管理系統 Warehouse Management System 設計規範v2.0.md` 中的設計規範。
 
 ### 主要設計要點
 
