@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
 
 :root {
   /* 定義全站基礎字體大小變數，預設為 16px */

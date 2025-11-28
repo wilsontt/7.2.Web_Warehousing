@@ -11,9 +11,9 @@ const data = [
 
 export function ChartWidget() {
   return (
-    <div className="bg-white overflow-hidden shadow rounded-lg h-96">
+    <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg h-96 transition-colors duration-300">
       <div className="p-5 h-full flex flex-col">
-        <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">存倉數量 Top 10 (箱)</h3>
+        <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">存倉數量 Top 10 (箱)</h3>
         <div className="flex-1 w-full min-h-0">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart

@@ -20,7 +20,7 @@ export function StatCard({ title, value, icon: Icon, trend, color = 'blue' }: St
   };
 
   return (
-    <div className="bg-white overflow-hidden shadow rounded-lg">
+    <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg transition-colors duration-300">
       <div className="p-5">
         <div className="flex items-center">
           <div className="flex-shrink-0">
@@ -30,9 +30,9 @@ export function StatCard({ title, value, icon: Icon, trend, color = 'blue' }: St
           </div>
           <div className="ml-5 w-0 flex-1">
             <dl>
-              <dt className="text-sm font-medium text-gray-500 truncate">{title}</dt>
+              <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{title}</dt>
               <dd>
-                <div className="text-lg font-medium text-gray-900">{value}</div>
+                <div className="text-lg font-medium text-gray-900 dark:text-white">{value}</div>
               </dd>
             </dl>
           </div>
@@ -44,7 +44,7 @@ export function StatCard({ title, value, icon: Icon, trend, color = 'blue' }: St
             <span className={`font-medium ${trend.value >= 0 ? 'text-green-600' : 'text-red-600'}`}>
               {trend.value > 0 ? '+' : ''}{trend.value}%
             </span>{' '}
-            <span className="text-gray-500">{trend.label}</span>
+            <span className="text-gray-500 dark:text-gray-400">{trend.label}</span>
           </div>
         </div>
       )}

@@ -234,14 +234,14 @@ function DropdownMenu({ items }: { items: MenuItem[] }) {
   if (!items || items.length === 0) return null;
 
   return (
-    <div className="bg-white shadow-lg rounded-md ring-1 ring-black ring-opacity-5">
+    <div className="bg-white dark:bg-gray-800 shadow-lg rounded-md ring-1 ring-black ring-opacity-5">
       <div className="py-1" role="menu" aria-orientation="vertical">
         {items.map((item) => (
           <div key={item.name} className="relative group/submenu">
             {item.items ? (
               <>
                 <button
-                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex justify-between items-center"
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 flex justify-between items-center"
                   role="menuitem"
                 >
                   {item.name}
@@ -255,7 +255,7 @@ function DropdownMenu({ items }: { items: MenuItem[] }) {
             ) : (
               <a
                 href={item.href}
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                 role="menuitem"
               >
                 {item.name}
@@ -276,7 +276,24 @@ export function Header() {
   const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large'>(() => {
     return (localStorage.getItem('app-font-size') as 'small' | 'medium' | 'large') || 'medium';
   });
+  // 初始化主題設定
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (localStorage.getItem('app-theme')) {
+      return localStorage.getItem('app-theme') as 'light' | 'dark';
+    }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
   const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // 監聽 theme 變化
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('app-theme', theme);
+  }, [theme]);
 
   // 監聽 fontSize 變化，更新 CSS 變數與 localStorage
   useEffect(() => {
@@ -303,7 +320,7 @@ export function Header() {
   }, []);
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header className="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50 transition-colors duration-300">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* 左側: Logo 與標題 */}
@@ -314,7 +331,7 @@ export function Header() {
                 src={logo}
                 alt="Crown Logo"
               />
-              <span className="ml-3 text-xl font-bold text-gray-900 hidden xl:block">
+              <span className="ml-3 text-xl font-bold text-gray-900 dark:text-white hidden xl:block">
                 文件倉儲管理系統
               </span>
             </Link>
@@ -324,7 +341,7 @@ export function Header() {
           <div className="hidden lg:flex lg:items-center lg:space-x-4">
             {NAVIGATION_ITEMS.map((item) => (
               <div key={item.name} className="relative group">
-                <button className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium inline-flex items-center">
+                <button className="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium inline-flex items-center">
                   {item.icon && <item.icon className={`mr-1.5 h-4 w-4 ${item.iconColor}`} />}
                   {item.name}
                   <ChevronDown className="ml-1 h-4 w-4" />
@@ -344,45 +361,49 @@ export function Header() {
               <div>
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="max-w-xs bg-white dark:bg-gray-800 flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   id="user-menu-button"
                   aria-expanded="false"
                   aria-haspopup="true"
                 >
                   <span className="sr-only">Open user menu</span>
-                  <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                  <div className="h-8 w-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-blue-300">
                     <User className="h-5 w-5" />
                   </div>
-                  <span className="ml-2 text-gray-700 font-medium">{user?.name || user?.username}</span>
+                  <span className="ml-2 text-gray-700 dark:text-gray-200 font-medium">{user?.name || user?.username}</span>
                   <ChevronDown className="ml-1 h-4 w-4 text-gray-400" />
                 </button>
               </div>
               
               {isUserMenuOpen && (
                 <div
-                  className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
+                  className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="user-menu-button"
                   tabIndex={-1}
                 >
-                  <div className="px-4 py-2 text-xs text-gray-500 border-b border-gray-100">
+                  <div className="px-4 py-2 text-xs text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700">
                     <p>帳號: {user?.username}</p>
                     <p>IP: 192.168.1.100</p>
                   </div>
                   
                   {/* 語系與主題切換 (移至此處) */}
-                  <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center" role="menuitem">
+                  <button className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center" role="menuitem">
                     <Globe className="mr-2 h-4 w-4" />
                     切換語系
                   </button>
-                  <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center" role="menuitem">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setTheme(theme === 'light' ? 'dark' : 'light'); }}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center"
+                    role="menuitem"
+                  >
                     <Sun className="mr-2 h-4 w-4" />
-                    切換主題
+                    {theme === 'light' ? '切換深色模式' : '切換淺色模式'}
                   </button>
 
                   {/* 字體大小調整 */}
-                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center justify-between" role="menuitem">
+                  <div className="px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-between" role="menuitem">
                     <div className="flex items-center">
                       <Type className="mr-2 h-4 w-4" />
                       <span>字體大小</span>
@@ -390,29 +411,29 @@ export function Header() {
                     <div className="flex space-x-1">
                       <button
                         onClick={(e) => { e.stopPropagation(); setFontSize('small'); }}
-                        className={`px-2 py-0.5 text-xs rounded border ${fontSize === 'small' ? 'bg-blue-100 border-blue-500 text-blue-700' : 'border-gray-300 text-gray-500'}`}
+                        className={`px-2 py-0.5 text-xs rounded border ${fontSize === 'small' ? 'bg-blue-100 border-blue-500 text-blue-700 dark:bg-blue-900 dark:text-blue-300' : 'border-gray-300 text-gray-500 dark:border-gray-600 dark:text-gray-400'}`}
                       >
                         小
                       </button>
                       <button
                         onClick={(e) => { e.stopPropagation(); setFontSize('medium'); }}
-                        className={`px-2 py-0.5 text-xs rounded border ${fontSize === 'medium' ? 'bg-blue-100 border-blue-500 text-blue-700' : 'border-gray-300 text-gray-500'}`}
+                        className={`px-2 py-0.5 text-xs rounded border ${fontSize === 'medium' ? 'bg-blue-100 border-blue-500 text-blue-700 dark:bg-blue-900 dark:text-blue-300' : 'border-gray-300 text-gray-500 dark:border-gray-600 dark:text-gray-400'}`}
                       >
                         中
                       </button>
                       <button
                         onClick={(e) => { e.stopPropagation(); setFontSize('large'); }}
-                        className={`px-2 py-0.5 text-xs rounded border ${fontSize === 'large' ? 'bg-blue-100 border-blue-500 text-blue-700' : 'border-gray-300 text-gray-500'}`}
+                        className={`px-2 py-0.5 text-xs rounded border ${fontSize === 'large' ? 'bg-blue-100 border-blue-500 text-blue-700 dark:bg-blue-900 dark:text-blue-300' : 'border-gray-300 text-gray-500 dark:border-gray-600 dark:text-gray-400'}`}
                       >
                         大
                       </button>
                     </div>
                   </div>
 
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabIndex={-1}>變更密碼</a>
+                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem" tabIndex={-1}>變更密碼</a>
                   <button
                     onClick={logout}
-                    className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="w-full text-left block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                     role="menuitem"
                     tabIndex={-1}
                   >
@@ -427,7 +448,7 @@ export function Header() {
           <div className="flex items-center lg:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
               aria-expanded="false"
             >
               <span className="sr-only">開啟主選單</span>
@@ -449,7 +470,7 @@ export function Header() {
               <div key={item.name}>
                  <a
                   href={item.href || '#'}
-                  className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 flex items-center"
+                  className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 hover:text-gray-800 dark:hover:text-white flex items-center"
                 >
                   {item.icon && <item.icon className={`mr-2 h-5 w-5 ${item.iconColor}`} />}
                   {item.name}
@@ -459,7 +480,7 @@ export function Header() {
                    <div key={subItem.name}>
                      <a
                       href={subItem.href || '#'}
-                      className="block pl-8 pr-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-800"
+                      className="block pl-8 pr-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white"
                     >
                       {subItem.name}
                     </a>
@@ -468,7 +489,7 @@ export function Header() {
                       <a
                         key={subSubItem.name}
                         href={subSubItem.href || '#'}
-                        className="block pl-12 pr-4 py-2 text-xs font-medium text-gray-400 hover:bg-gray-50 hover:text-gray-800"
+                        className="block pl-12 pr-4 py-2 text-xs font-medium text-gray-400 dark:text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white"
                       >
                         {subSubItem.name}
                       </a>
@@ -478,22 +499,62 @@ export function Header() {
               </div>
             ))}
           </div>
-          <div className="pt-4 pb-4 border-t border-gray-200">
+          <div className="pt-4 pb-4 border-t border-gray-200 dark:border-gray-700">
             <div className="flex items-center px-4">
               <div className="flex-shrink-0">
-                <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-blue-300">
                   <User className="h-6 w-6" />
                 </div>
               </div>
               <div className="ml-3">
-                <div className="text-base font-medium text-gray-800">{user?.name || user?.username}</div>
-                <div className="text-sm font-medium text-gray-500">{user?.role}</div>
+                <div className="text-base font-medium text-gray-800 dark:text-gray-200">{user?.name || user?.username}</div>
+                <div className="text-sm font-medium text-gray-500 dark:text-gray-400">{user?.role}</div>
               </div>
             </div>
             <div className="mt-3 space-y-1">
               <button
+                className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                切換語系
+              </button>
+              <button
+                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                {theme === 'light' ? '切換深色模式' : '切換淺色模式'}
+              </button>
+              <div className="px-4 py-2">
+                <div className="text-base font-medium text-gray-500 dark:text-gray-400 mb-2">字體大小</div>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => setFontSize('small')}
+                    className={`px-3 py-1 text-sm rounded border ${fontSize === 'small' ? 'bg-blue-100 border-blue-500 text-blue-700 dark:bg-blue-900 dark:text-blue-300' : 'border-gray-300 text-gray-500 dark:border-gray-600 dark:text-gray-400'}`}
+                  >
+                    小
+                  </button>
+                  <button
+                    onClick={() => setFontSize('medium')}
+                    className={`px-3 py-1 text-sm rounded border ${fontSize === 'medium' ? 'bg-blue-100 border-blue-500 text-blue-700 dark:bg-blue-900 dark:text-blue-300' : 'border-gray-300 text-gray-500 dark:border-gray-600 dark:text-gray-400'}`}
+                  >
+                    中
+                  </button>
+                  <button
+                    onClick={() => setFontSize('large')}
+                    className={`px-3 py-1 text-sm rounded border ${fontSize === 'large' ? 'bg-blue-100 border-blue-500 text-blue-700 dark:bg-blue-900 dark:text-blue-300' : 'border-gray-300 text-gray-500 dark:border-gray-600 dark:text-gray-400'}`}
+                  >
+                    大
+                  </button>
+                </div>
+              </div>
+              <a
+                href="#"
+                className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                變更密碼
+              </a>
+              <button
                 onClick={logout}
-                className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+                className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 登出
               </button>

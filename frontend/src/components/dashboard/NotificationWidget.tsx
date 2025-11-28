@@ -8,9 +8,9 @@ const NOTIFICATIONS = [
 
 export function NotificationWidget() {
   return (
-    <div className="bg-white overflow-hidden shadow rounded-lg h-full">
+    <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg h-full transition-colors duration-300">
       <div className="p-5">
-        <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">最新通知</h3>
+        <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">最新通知</h3>
         <div className="flow-root">
           <ul className="-my-4 divide-y divide-gray-200">
             {NOTIFICATIONS.map((notification) => (
@@ -23,9 +23,9 @@ export function NotificationWidget() {
                       <Bell className="h-5 w-5 text-blue-500" />
                     )}
                   </div>
-                  <div className="ml-3 flex-1">
-                    <p className="text-sm font-medium text-gray-900">{notification.title}</p>
-                    <p className="text-sm text-gray-500">{notification.message}</p>
+                  <div className="ml-3 w-0 flex-1 pt-0.5">
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">{notification.title}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{notification.message}</p>
                   </div>
                   <div className="ml-3">
                     <span className="text-xs text-gray-400">{notification.time}</span>
