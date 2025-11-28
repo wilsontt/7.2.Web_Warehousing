@@ -1,9 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../contexts/auth-context';
-import {
-  User, ChevronDown, Menu, X, Globe, Sun, ChevronRight, Type,
-  Database, ClipboardList, Package, Users, ArrowLeftRight, FileCheck, Warehouse, Settings
-} from 'lucide-react';
+import { Menu, X, User, ChevronDown, Settings, Database, Globe, Sun, ChevronRight, Type, ClipboardList, Package, Users, ArrowLeftRight, FileCheck, Warehouse } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 
@@ -268,6 +265,56 @@ function DropdownMenu({ items }: { items: MenuItem[] }) {
   );
 }
 
+// 手機版選單項目組件 (支援手風琴式折疊/展開)
+function MobileMenuItem({ item }: { item: MenuItem }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 hover:text-gray-800 dark:hover:text-white"
+      >
+        <div className="flex items-center">
+          {item.icon && <item.icon className={`mr-2 h-5 w-5 ${item.iconColor}`} />}
+          <span>{item.name}</span>
+        </div>
+        {item.items && (
+          <ChevronDown 
+            className={`h-4 w-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} 
+          />
+        )}
+      </button>
+      
+      {/* 子選單 (折疊式) */}
+      {isOpen && item.items && (
+        <div className="bg-gray-50 dark:bg-gray-800">
+          {item.items.map((subItem) => (
+            <div key={subItem.name}>
+              <a
+                href={subItem.href || '#'}
+                className="block pl-8 pr-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white"
+              >
+                {subItem.name}
+              </a>
+              {/* 第三層選單 */}
+              {subItem.items && subItem.items.map((subSubItem) => (
+                <a
+                  key={subSubItem.name}
+                  href={subSubItem.href || '#'}
+                  className="block pl-12 pr-4 py-2 text-xs font-medium text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white"
+                >
+                  {subSubItem.name}
+                </a>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function Header() {
   const { user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -466,37 +513,11 @@ export function Header() {
       {isMobileMenuOpen && (
         <div className="lg:hidden">
           <div className="pt-2 pb-3 space-y-1">
-            {NAVIGATION_ITEMS.map((item) => (
-              <div key={item.name}>
-                 <a
-                  href={item.href || '#'}
-                  className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 hover:text-gray-800 dark:hover:text-white flex items-center"
-                >
-                  {item.icon && <item.icon className={`mr-2 h-5 w-5 ${item.iconColor}`} />}
-                  {item.name}
-                </a>
-                {/* 簡單的手機版子選單縮排 */}
-                {item.items && item.items.map(subItem => (
-                   <div key={subItem.name}>
-                     <a
-                      href={subItem.href || '#'}
-                      className="block pl-8 pr-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white"
-                    >
-                      {subItem.name}
-                    </a>
-                    {/* 第三層手機版選單 */}
-                    {subItem.items && subItem.items.map(subSubItem => (
-                      <a
-                        key={subSubItem.name}
-                        href={subSubItem.href || '#'}
-                        className="block pl-12 pr-4 py-2 text-xs font-medium text-gray-400 dark:text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white"
-                      >
-                        {subSubItem.name}
-                      </a>
-                    ))}
-                   </div>
-                ))}
-              </div>
+            {NAVIGATION_ITEMS.map((item, index) => (
+              <MobileMenuItem 
+                key={item.name} 
+                item={item}
+              />
             ))}
           </div>
           <div className="pt-4 pb-4 border-t border-gray-200 dark:border-gray-700">
