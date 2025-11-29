@@ -58,6 +58,7 @@ temp/
 *.mdf
 *.ldf
 *.db
+0.standards/4.資料庫結構分析/8.系統管理作業/OLD_Wharehouse_Table/
 
 # Docker
 docker-compose.override.yml
