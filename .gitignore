@@ -73,4 +73,6 @@ docker-compose.override.yml
 # 不會影響前端路由頁面 frontend/app/reports/（程式碼需要提交）
 /reports/
 
-
+# 聊天記錄 不要備份
+chat_record/
+docs/chat_record/
