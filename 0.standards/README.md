@@ -1,5 +1,14 @@
 # 文件倉儲管理系統 (Warehouse Management System)
 
+![版本](https://img.shields.io/badge/版本-2.0.0-blue)
+![狀態](https://img.shields.io/badge/狀態-開發中-yellow)
+![授權](https://img.shields.io/badge/授權-待定-lightgrey)
+
+![React](https://img.shields.io/badge/React-18+-61DAFB?logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?logo=typescript&logoColor=white)
+![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white)
+![SQL Server](https://img.shields.io/badge/SQL%20Server-2022-CC2927?logo=microsoft-sql-server&logoColor=white)
+
 **版本**: 2.0.0  
 **技術堆疊**: React 18+ / TypeScript / ASP.NET Core 8+ / MS SQL Server 2022+
 
@@ -76,6 +85,7 @@
 - **P4**: 漸進式價值交付
 - **P5**: 主要語言（正體中文 zh-TW）
 - **P6-P13**: 程式碼品質、測試、UX、效能、架構、技術堆疊、數據治理、可觀測性
+- **P14**: 文件產出規範（README.md 格式與結構規範）
 
 ## 快速開始
 
