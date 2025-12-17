@@ -3,6 +3,7 @@ import { useAuth } from '../../contexts/auth-context';
 import { Menu, X, User, ChevronDown, Settings, Database, Globe, Sun, ChevronRight, Type, ClipboardList, Package, Users, ArrowLeftRight, FileCheck, Warehouse } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
+import { CalendarIcon } from '../common/CalendarIcon';
 
 // 定義選單項目型別
 interface MenuItem {
@@ -330,6 +331,8 @@ export function Header() {
     }
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
+  // 日期時間狀態管理
+  const [currentDateTime, setCurrentDateTime] = useState<Date>(() => new Date());
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   // 監聽 theme 變化
@@ -363,6 +366,17 @@ export function Header() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // 實時更新日期時間
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000); // 每秒更新一次
+
+    return () => {
+      clearInterval(timer);
     };
   }, []);
 
@@ -433,6 +447,28 @@ export function Header() {
                   <div className="px-4 py-2 text-xs text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700">
                     <p>帳號: {user?.username}</p>
                     <p>IP: 192.168.1.100</p>
+                  </div>
+                  
+                  {/* 日期-時間顯示 */}
+                  <div className="px-4 py-2 text-sm text-gray-700 dark:text-gray-200 border-b border-gray-100 dark:border-gray-700 flex items-center space-x-3">
+                    <CalendarIcon date={currentDateTime} size={40} />
+                    <div className="flex-1">
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        {currentDateTime.toLocaleDateString('zh-TW', { 
+                          year: 'numeric', 
+                          month: '2-digit', 
+                          day: '2-digit' 
+                        })}
+                      </div>
+                      <div className="text-sm font-medium">
+                        {currentDateTime.toLocaleTimeString('zh-TW', { 
+                          hour: '2-digit', 
+                          minute: '2-digit', 
+                          second: '2-digit',
+                          hour12: false 
+                        })}
+                      </div>
+                    </div>
                   </div>
                   
                   {/* 語系與主題切換 (移至此處) */}
@@ -530,6 +566,27 @@ export function Header() {
               <div className="ml-3">
                 <div className="text-base font-medium text-gray-800 dark:text-gray-200">{user?.name || user?.username}</div>
                 <div className="text-sm font-medium text-gray-500 dark:text-gray-400">{user?.role}</div>
+              </div>
+            </div>
+            {/* 手機版日期-時間顯示 */}
+            <div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700 flex items-center space-x-3">
+              <CalendarIcon date={currentDateTime} size={40} />
+              <div className="flex-1">
+                <div className="text-xs text-gray-500 dark:text-gray-400">
+                  {currentDateTime.toLocaleDateString('zh-TW', { 
+                    year: 'numeric', 
+                    month: '2-digit', 
+                    day: '2-digit' 
+                  })}
+                </div>
+                <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                  {currentDateTime.toLocaleTimeString('zh-TW', { 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    second: '2-digit',
+                    hour12: false 
+                  })}
+                </div>
               </div>
             </div>
             <div className="mt-3 space-y-1">
