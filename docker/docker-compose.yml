@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  # SQL Server 資料庫
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: wms-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - wms-network
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong@Passw0rd -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  # Redis 快取
+  redis:
+    image: redis:7-alpine
+    container_name: wms-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - wms-network
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # 後端 API
+  api:
+    build:
+      context: ../backend
+      dockerfile: ../docker/Dockerfile.api
+    container_name: wms-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=WarehouseManagement;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Redis__ConnectionString=redis:6379
+    ports:
+      - "5000:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - wms-network
+    volumes:
+      - ../backend:/app
+      - /app/bin
+      - /app/obj
+
+  # 前端
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../docker/Dockerfile.frontend
+    container_name: wms-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    networks:
+      - wms-network
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules
+
+volumes:
+  sqlserver_data:
+  redis_data:
+
+networks:
+  wms-network:
+    driver: bridge
+
