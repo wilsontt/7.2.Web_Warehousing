@@ -24,7 +24,7 @@ const NAVIGATION_ITEMS: MenuItem[] = [
       {
         name: '代碼作業',
         items: [
-          { name: '基本代碼維護', href: '#' },
+          { name: '基本代碼維護', href: '/basic/code-maintenance' },
           { name: '箱、件代碼維護', href: '#' },
         ]
       },
@@ -251,13 +251,13 @@ function DropdownMenu({ items }: { items: MenuItem[] }) {
                 </div>
               </>
             ) : (
-              <a
-                href={item.href}
+              <Link
+                to={item.href || '#'}
                 className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                 role="menuitem"
               >
                 {item.name}
-              </a>
+              </Link>
             )}
           </div>
         ))}
@@ -292,12 +292,12 @@ function MobileMenuItem({ item }: { item: MenuItem }) {
         <div className="bg-gray-50 dark:bg-gray-800">
           {item.items.map((subItem) => (
             <div key={subItem.name}>
-              <a
-                href={subItem.href || '#'}
+              <Link
+                to={subItem.href || '#'}
                 className="block pl-8 pr-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white"
               >
                 {subItem.name}
-              </a>
+              </Link>
               {/* 第三層選單 */}
               {subItem.items && subItem.items.map((subSubItem) => (
                 <a

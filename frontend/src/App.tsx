@@ -4,6 +4,7 @@ import { ProtectedRoute } from './components/auth/protected-route';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import { MainLayout } from './components/layout/MainLayout';
+import CodeMaintenancePage from './pages/basic/CodeMaintenancePage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route element={<MainLayout />}>
               <Route path="/" element={<Dashboard />} />
+              <Route path="/basic/code-maintenance" element={<CodeMaintenancePage />} />
               {/* Add other protected routes here */}
             </Route>
           </Route>
