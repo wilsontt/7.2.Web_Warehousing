@@ -42,7 +42,7 @@ sudo rm -rf /etc/krb5.conf
 # -----------------------------
 # 5️⃣ Provision AD DC（請修改 admin 密碼）
 # -----------------------------
-ADMINPASS='YourSecurePassword123!'
+ADMINPASS='A27622500.zz'
 sudo samba-tool domain provision \
   --use-rfc2307 \
   --realm=LAB1.WILSONTT.COM \

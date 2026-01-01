@@ -1,4 +1,4 @@
-﻿# CMP
+# CMP
 **中文名稱：** 客戶使用者
 
 | 欄位代號 | 中文欄名 | 英文欄名 | 程式欄名 | REACT欄名 | 型態 | Identity | PK | Unique | FK | 備註 |
@@ -29,6 +29,10 @@
 | CMP27 | 申請日期 | application_date | apply_date | applyDate  | char(8) |  |  |  |  |  |
 | CMP28 | 可否下單 | order_allowed | can_place_order | canPlaceOrder  | char(1) |  |  |  | Y | Value：CDS.CDS00，Display：CDS.CDS01，Condition：CDS.CDF00='24' AND CDS.CDS00=CMP28 |
 | CMP29 | 是否工單結案通知 | is_work_order_close_notice | is_workorder_close_notified | isWorkorderCloseNotified  | char(1) |  |  |  | Y | Value：CDS.CDS00，Display：CDS.CDS01，Condition：CDS.CDF00='24' AND CDS.CDS00=CMP29 |
+| CMP30 | 狀態異動原因 | status_change_reason | status_change_reason | statusChangeReason  | varchar(100) |  |  |  |  | 必填。記錄最後一次異動原因。 |
+| CMP31 | 狀態異動日期 | status_change_date | status_change_date | statusChangeDate  | char(8) |  |  |  |  | 必填。記錄最後一次異動生效日期 (YYYYMMDD)。 |
+| CMP32 | 狀態異動類別 | status_change_type | status_change_type | statusChangeType  | char(10) |  |  |  | Y | Value：CDS.CDS00，Display：CDS.CDS01，Condition：CDS.CDF00='XX' AND CDS.CDS00=CMP.CMP32。必填。異動類別：DISABLE(停用), ENABLE(復用), TRANSFER(調動)。 |
+| CMP_UID | 系統使用者ID | user_id | user_id | userId  | bigint(8) |  |  |  | Y | Value：USR.USER_ID，Display：USR.USER_NAME，Condition：USR.USER_ID=CMP.CMP_UID。FK 指向 USR.USER_ID，若為 NULL 代表尚未開通登入權限。 |
 | id | 客戶使用者序號 | id | id | id  | bigint(8) | Y | Y | Y |  |  |
 | cm_id | 客戶序號 | customer_id | cust_id | custId  | bigint(8) |  |  | Y | Y | Value：CM.id，Condition：CM.CM00=CMP.CM00 |
 | lock_version | 鎖定版本 | lock_version | lock_ver | lockVer  | bigint(8) |  |  |  |  |  |
