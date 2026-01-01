@@ -61,7 +61,8 @@
 - **資料庫**: MS SQL Server 2022+
 - **ORM**: Entity Framework Core
 - **快取**: Redis
-- **容器化**: Docker
+- **容器化**: Docker（SQL Server、Redis、API、Frontend）
+- **身份驗證**: Samba AD DC（在 Ubuntu Server 上直接安裝）
 
 ## 開發流程
 
@@ -93,9 +94,10 @@
 
 - Node.js 18+
 - .NET 8 SDK
-- Docker Desktop
+- Docker Desktop（用於 SQL Server、Redis、API、Frontend）
 - MS SQL Server 2022+ (或使用 Docker)
 - Redis (或使用 Docker)
+- Ubuntu Server 22.04+（用於 Samba AD DC，不使用 Docker）
 
 ### 安裝步驟
 

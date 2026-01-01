@@ -443,12 +443,7 @@ export function Header() {
                   aria-orientation="vertical"
                   aria-labelledby="user-menu-button"
                   tabIndex={-1}
-                >
-                  <div className="px-4 py-2 text-xs text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700">
-                    <p>帳號: {user?.username}</p>
-                    <p>IP: 192.168.1.100</p>
-                  </div>
-                  
+                >                  
                   {/* 日期-時間顯示 */}
                   <div className="px-4 py-2 text-sm text-gray-700 dark:text-gray-200 border-b border-gray-100 dark:border-gray-700 flex items-center space-x-3">
                     <CalendarIcon date={currentDateTime} size={40} />
@@ -470,6 +465,12 @@ export function Header() {
                       </div>
                     </div>
                   </div>
+                  
+                  <div className="px-4 py-2 text-xs text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700">
+                    <p>帳號: {user?.username}</p>
+                    <p>IP: 192.168.1.100</p>
+                  </div>
+
                   
                   {/* 語系與主題切換 (移至此處) */}
                   <button className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center" role="menuitem">

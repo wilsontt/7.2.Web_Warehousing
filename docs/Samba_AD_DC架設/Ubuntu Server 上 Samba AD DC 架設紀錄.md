@@ -1,5 +1,8 @@
 # Ubuntu Server 上 Samba AD DC 架設紀錄
 
+> **重要說明**：本專案採用 **Ubuntu Server 直接安裝** 的方式部署 Samba AD DC，**不使用 Docker 容器化部署**。  
+> 如需在 Ubuntu Server 上快速安裝，請使用 `install-samba-ad.sh` 腳本。
+
 ## 一、環境概況
 
 * **主機**：MacBook M4 Max
@@ -134,11 +137,11 @@ nslookup dc1.lab1.wilsontt.com
 | 問題                                               | 原因                                  | 解法                                                          |
 | ------------------------------------------------ | ----------------------------------- | ----------------------------------------------------------- |
 | Install-ADDSForest / PowerShell 無法在 Win11 ARM 執行 | Win11 ARM 不支援 Windows Server AD DC  | 改用 Ubuntu Samba AD DC                                       |
-| samba-tool: command not found                    | Docker container 內沒有安裝 samba-tools  | 重新建立 container 或直接在 Ubuntu 安裝 samba-tools                   |
+| samba-tool: command not found                    | Ubuntu Server 上沒有安裝 samba-tools      | 在 Ubuntu Server 上執行: `sudo apt install samba-tools`                |
 | DNS / host / kinit 失敗                            | systemd-resolved / bind9 占用 53 port | 停止 systemd-resolved 或 bind9，改 /etc/resolv.conf 指向 127.0.0.1 |
 | Provision 遇到 NetBIOS 名稱錯誤                        | hostname 包含大小寫或非標準字符                | 確認 hostname 只有字母數字，不含 `-` 或空格，建議 dc1                        |
 | Windows join domain 失敗                           | Windows DNS 沒指向 AD DC               | Windows 網路介面 DNS 設定指向 Ubuntu AD DC IP                       |
-| Docker container 內 DNS / samba-tool 失敗           | port 53 被佔用或工具未安裝                   | 停止佔用服務，確保 container 內安裝 samba-tools                         |
+| Ubuntu Server 上 DNS / samba-tool 失敗              | port 53 被佔用或工具未安裝                   | 停止佔用服務，確保 Ubuntu Server 上安裝 samba-tools                    |
 
 ---
 
